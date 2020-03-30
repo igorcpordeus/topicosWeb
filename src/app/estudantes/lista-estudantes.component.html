@@ -6,11 +6,11 @@
         <div class="row">
             <div class="col-md-2">Filtrar por:</div>
             <div class="col-md-4">
-                <input type="text" />
+                <input type="text" [(ngModel)] = 'filtroLista' />
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6" >
                 <h4>Filtrado por:</h4>
             </div>
         </div>
@@ -19,8 +19,8 @@
                 <thead>
                     <tr>
                         <th>
-                            <button class="btn btn-primary">
-                                Exibir Imagem
+                            <button class="btn btn-primary" (click) = 'alternarImagem()' >
+                                    {{exibirImagem ? 'Esconder' : 'Exibir'}} Imagem
                             </button>
                         </th>
                         <th>Nome</th>
@@ -30,7 +30,12 @@
                 </thead>
                 <tbody>
                         <tr *ngFor='let estudante of estudantes'>
-                                <td></td>
+                                <td>
+                                    <img *ngIf='exibirImagem' [src] = 'estudante.urlImagem'
+                                    [style.width.px] = 'larguraImagem'
+                                    [style.margin.px] = 'margemImagem'
+                                    >
+                                </td>
                                 <td>{{estudante.nomeEstudante}}</td>
                                 <td>{{estudante.sexoEstudante}}</td>
                                 <td>{{estudante.planeta}}</td>
