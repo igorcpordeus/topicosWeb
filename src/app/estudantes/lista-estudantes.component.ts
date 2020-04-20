@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IEstudantes } from './estudantes';
+import { EstudantesService } from '../service/estudantes.service';
 
 @Component({
   selector: 'jedi-estudantes',
   templateUrl: './lista-estudantes.component.html'
+  
 })
 export class ListaEstudantesComponent implements OnInit {
 
@@ -15,60 +17,21 @@ export class ListaEstudantesComponent implements OnInit {
   estudanteFiltrado: IEstudantes[];
   alturasEstudantes: number[];
   alturaMaxima: number;
+  estudantes: IEstudantes[];
+  
 
-  constructor() {
-    this.estudanteFiltrado = this.estudantes; 
-    this.filtroLista = '';
+  constructor(private estudantesService: EstudantesService) {
   }
 
   ngOnInit(): void {
+    this.estudantes = this.estudantesService.getEstudantes();
+    this.estudanteFiltrado = this.estudantes; 
+    this.filtroLista = '';
     this.alturasEstudantes = this.estudantes.map((estudante: IEstudantes) => estudante.altura);
     this.alturaMaxima = Math.max.apply(null, this.alturasEstudantes);
     //console.log(this.alturaMaxima);
   }
 
-  estudantes: IEstudantes[] = [
-    {
-      "estudanteId": 1,
-      "nomeEstudante": "Ancinho",
-      "sexoEstudante": "masculino",
-      "planeta": "marte",
-      "altura": 1.90,
-      "urlImagem": "./assets/imagens/anakin_skywalker.jpg"
-    },
-    {
-      "estudanteId": 2,
-      "nomeEstudante": "Chico",
-      "sexoEstudante": "masculino",
-      "planeta": "venus",
-      "altura": 1.80,
-      "urlImagem": "./assets/imagens/beru_whitesun_lars.jpg"
-    },
-    {
-      "estudanteId": 5,
-      "nomeEstudante": "Maria",
-      "sexoEstudante": "feminino",
-      "planeta": "terra",
-      "altura": 1.70,
-      "urlImagem": "./assets/imagens/biggs_darklighter.jpg"
-    },
-    {
-      "estudanteId": 6,
-      "nomeEstudante": "Chica",
-      "sexoEstudante": "feminino",
-      "planeta": "jupiter",
-      "altura": 1.50,
-      "urlImagem": "./assets/imagens/c-3po.jpg"
-    },
-    {
-      "estudanteId": 9,
-      "nomeEstudante": "Jose",
-      "sexoEstudante": "homosexual",
-      "planeta": "Saturno",
-      "altura": 1.60,
-      "urlImagem": "./assets/imagens/chewbacca.jpg"
-    },
-  ]
   alternarImagem(): void {
     this.exibirImagem = !this.exibirImagem;
   };
