@@ -26,10 +26,11 @@
                         <th>Nome</th>
                         <th>Sexo</th>
                         <th>Planeta</th>
+                        <th>Altura Relativa</th>
                     </tr>
                 </thead>
                 <tbody>
-                        <tr *ngFor='let estudante of estudantes'>
+                        <tr *ngFor='let estudante of estudanteFiltrado'>
                                 <td>
                                     <img *ngIf='exibirImagem' [src] = 'estudante.urlImagem'
                                     [style.width.px] = 'larguraImagem'
@@ -37,8 +38,11 @@
                                     >
                                 </td>
                                 <td>{{estudante.nomeEstudante}}</td>
-                                <td>{{estudante.sexoEstudante}}</td>
+                                <td>{{estudante.sexoEstudante | SexoPipe: estudante.sexoEstudante}}</td>
                                 <td>{{estudante.planeta}}</td>
+                                <td> <jedi-altura [altura] = 'estudante.altura'
+                                    [alturaMaxima] = 'alturaMaxima' >
+                                    </jedi-altura> </td>
                         </tr>
                 </tbody>
             </table>
