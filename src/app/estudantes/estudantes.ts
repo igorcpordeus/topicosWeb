@@ -1,7 +1,7 @@
 
 export interface IEstudantes{
 
-    estudanteId: number;
+    estudanteId: string;
     nomeEstudante: string;
     sexoEstudante: string;
     planeta: string;

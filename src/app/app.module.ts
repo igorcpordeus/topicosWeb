@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { ListaEstudantesComponent } from './estudantes/lista-estudantes.component';
 import { SexoPipe } from './compartilhado/sexo.pipe';
 import { AlturaComponent } from './compartilhado/altura.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { AlturaComponent } from './compartilhado/altura.component';
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],

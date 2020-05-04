@@ -5,7 +5,7 @@ import { EstudantesService } from '../service/estudantes.service';
 @Component({
   selector: 'jedi-estudantes',
   templateUrl: './lista-estudantes.component.html'
-  
+
 })
 export class ListaEstudantesComponent implements OnInit {
 
@@ -18,18 +18,27 @@ export class ListaEstudantesComponent implements OnInit {
   alturasEstudantes: number[];
   alturaMaxima: number;
   estudantes: IEstudantes[];
-  
+  mensagemErro: string;
+
 
   constructor(private estudantesService: EstudantesService) {
   }
 
   ngOnInit(): void {
-    this.estudantes = this.estudantesService.getEstudantes();
-    this.estudanteFiltrado = this.estudantes; 
-    this.filtroLista = '';
-    this.alturasEstudantes = this.estudantes.map((estudante: IEstudantes) => estudante.altura);
-    this.alturaMaxima = Math.max.apply(null, this.alturasEstudantes);
-    //console.log(this.alturaMaxima);
+    this.getEstudantes();
+    //this.estudanteFiltrado = this.estudantes;
+    //this.filtroLista = '';
+    
+  }
+  getEstudantes(): void {
+    this.estudantesService.getEstudantes().subscribe(
+      estudantes => {
+        this.estudantes = estudantes; 
+        this.estudanteFiltrado = this.estudantes;
+        this.alturasEstudantes = this.estudantes.map((estudante: IEstudantes) => estudante.altura);
+        this.alturaMaxima = Math.max.apply(null, this.alturasEstudantes);
+      },
+      error => this.mensagemErro = <any>error);
   }
 
   alternarImagem(): void {
@@ -44,8 +53,8 @@ export class ListaEstudantesComponent implements OnInit {
     this.estudanteFiltrado = this.filtroLista ? this.executarFiltro(this.filtroLista) : this.estudantes;
   }
 
-  executarFiltro(filtrarPor: string): IEstudantes[] { 
-    filtrarPor = filtrarPor.toLocaleLowerCase(); 
+  executarFiltro(filtrarPor: string): IEstudantes[] {
+    filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.estudantes.filter((estudante: IEstudantes) =>
       estudante.nomeEstudante.toLocaleLowerCase().indexOf(filtrarPor) !== -1);
   }
