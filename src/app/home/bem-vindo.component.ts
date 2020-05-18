@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BemVindoComponent implements OnInit {
 
+  tituloPagina: String = "Bem vindo";
   constructor() { }
 
   ngOnInit(): void {
