@@ -14,7 +14,7 @@ export class AlturaComponent implements OnChanges{
     
     ngOnChanges(): void { 
         this.larguraIcone = this.altura * 100 / this.alturaMaxima;
-        console.log(this.larguraIcone);
+        
     }
     
 }
