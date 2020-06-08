@@ -46,7 +46,15 @@
                                 <td>{{estudante.planeta}}</td>
                                 <td> <jedi-altura [altura] = 'estudante.altura'
                                     [alturaMaxima] = 'alturaMaxima' >
-                                    </jedi-altura> </td>
+                                    </jedi-altura> 
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline-primary btn-sm"
+                                            [routerLink]="['/estudantes', estudante.id, 'editar']"> 
+                                        Editar
+                                    </button> 
+                                </td>
+
                         </tr>
                 </tbody>
             </table>

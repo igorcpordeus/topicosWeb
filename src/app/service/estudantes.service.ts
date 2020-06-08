@@ -1,8 +1,8 @@
 import { IEstudantes } from '../estudantes/estudantes';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -23,11 +23,50 @@ export class EstudantesService {
     }
 
     getEstudante(id: string): Observable<IEstudantes> { 
+        if (id === "0") {
+            return of(this.inicializarEstudante()); 
+        }
         const url = `${this.estudantesUrl}/${id}`;
         return this.http.get<IEstudantes>(url).pipe(
             tap(data => console.log('getEstudantes: ' + JSON.stringify(data))),
             catchError(this.trataErro) );
-}
+    }
+
+    private inicializarEstudante(): IEstudantes { 
+        return { 
+            id: '0',
+            nomeEstudante: null, 
+            sexoEstudante: null, 
+            planeta: null,
+            altura: null, 
+            urlImagem: null
+        }; 
+    }
+
+    deletarEstudante(id: string): Observable<{}> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' }); 
+        const url = `${this.estudantesUrl}/${id}`;
+        return this.http.delete<IEstudantes>(url, { headers }).pipe(
+            tap(data => console.log('deletarEstudante: ' + id)), catchError(this.trataErro)); 
+    }
+
+    atualizarEstudante(estudante: IEstudantes): Observable<IEstudantes> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' }); 
+        const url = `${this.estudantesUrl}/atualiza/${estudante.id}`;
+        return this.http.put<IEstudantes>(url, estudante, { headers }).pipe(
+            tap(() => console.log('atualizarEstudante: ' + estudante.id)),
+            map(() => estudante),
+            catchError(this.trataErro) );
+    }
+
+    criarEstudante(estudante: IEstudantes): Observable<IEstudantes> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' }); 
+        estudante.id = null;
+        return this.http.post<IEstudantes>(this.estudantesUrl + "/novo", estudante, { headers }).pipe(
+            tap(data => console.log('criarEstudante: ' + JSON.stringify(data))), 
+            catchError(this.trataErro)
+        );
+    }
 
     private trataErro(erro: HttpErrorResponse) {
         // Em uma aplicação real, podemos enviar o erro para alguma infraestrutura 
@@ -43,5 +82,6 @@ export class EstudantesService {
         }
         console.error(mensagemErro); return throwError(mensagemErro);
     }
+
 }
 

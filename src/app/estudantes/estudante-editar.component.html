@@ -1,0 +1,72 @@
+<div class="card">
+    <div class="card-header">
+        {{tituloPagina}}
+    </div>
+    <div class="card-body">
+        <form novalidate (ngSubmit)="salvarEstudante()" [formGroup]="formEstudante">
+
+
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="idNomeEstudante">Nome Estudante:</label>
+                <div class="col-md-8">
+                    <input class="form-control" id="idNomeEstudante" type="text" placeholder="Nome (obrigatório)"
+                        formControlName="nomeEstudante" [ngClass]="{'is-invalid': displayMessage.nomeEstudante }" />
+                    <span class="invalid-feedback">
+                        {{displayMessage.nomeEstudante}}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="idSexo">Sexo:</label>
+                <div class="col-md-8">
+                    <input class="form-control" id="idSexo" type="text" placeholder="Sexo (obrigatório)"
+                        formControlName="sexo" [ngClass]="{'is-invalid': displayMessage.sexo}" />
+                    <span class="invalid-feedback">
+                        {{displayMessage.sexo}}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="idPlaneta">Planeta:</label>
+                <div class="col-md-8">
+                    <input class="form-control" id="idPlaneta" type="text" placeholder="Planeta (obrigatório)"
+                        formControlName="planeta" [ngClass]="{'is-invalid': displayMessage.planeta }" />
+                    <span class="invalid-feedback">
+                        {{displayMessage.planeta}}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label" for="idRating">Rating (1-5):</label>
+                <div class="col-md-8">
+                    <input class="form-control" id="idRating" type="text" placeholder="Rating (1-5)"
+                        formControlName="rating" [ngClass]="{'is-invalid': displayMessage.rating}" />
+                    <span class="invalid-feedback">
+                        {{displayMessage.rating}}
+                    </span>
+                </div>
+            </div>
+            <div class="form-group row mb-2">
+                <div class="offset-md-2 col-md-6">
+                    <button class="btn btn-primary mr-4" style="width:100px;" type="submit" [title]="formEstudante.valid 
+            ? 'Salvar seus dados' 
+            : 'Desabilitado até que os dados estejam válidos'" [disabled]="!formEstudante.valid">
+                        Salvar
+                    </button>
+                    <button class="btn btn-outline-secondary mr-4" style="width:100px;" type="button"
+                        title="Cancelar suas edições" [routerLink]="['/estudantes']">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-outline-warning mr-4" style="width:100px" type="button"
+                        title="Deletar este estudante" (click)="deletarEstudante()">
+                        Deletar
+                    </button>
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}
+    </div>
+</div>
